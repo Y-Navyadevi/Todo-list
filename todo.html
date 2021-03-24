@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<style>
+.body{
+
+    font-family:Georgia, 'Times New Roman', Times, serif;
+    border: 7px solid rgb(7, 7, 7);
+      margin-left:350px;
+      margin-right:350px;
+      padding: 10px;
+}
+</style>
+
+
+<body>
+  <div id="app" />
+  <script type="text/babel">
+
+
+    class App extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {
+          tasks:[],
+          input: "",
+          count:0
+        };
+      }
+
+      render() {
+        return (
+          <div class="body" >
+            <h1>Tasks</h1>
+            <ol>
+              {this.state.tasks.map((task,i) =>
+                <li key={i}>
+                  {task}
+               <button type="button" class="btn btn-danger" onClick={(event)=>{this.deleteTask(event,i)}}>DeleteTask</button>
+
+                </li>
+              )}
+            </ol>
+            <div>
+
+            <input onChange={this.UpdateValue}value={this.state.input}/>
+            <button type="button" class="btn btn-primary" onClick={this.addTask}>AddTask</button>
+            <p>Number of items:{this.state.count}</p>
+            </div>
+          </div>
+        );
+      }
+
+      UpdateValue=(event)=>{
+        this.setState({
+          input:event.target.value,
+        });
+      }
+      addTask=(event)=>{
+        this.setState(state=>({
+          tasks:[...state.tasks,state.input],
+          input:"",
+          count:state.count+1
+          
+
+        }));
+
+      }
+      deleteTask=(event,i)=>{
+        var ditem=[...this.state.tasks]
+        ditem.splice(i,1)
+        this.setState(state=>({
+          tasks:ditem,
+          count:state.count-1
+        }));
+
+      }
+
+    }
+
+
+
+  ReactDOM.render(<App />, document.querySelector("#app"));
+
+  </script>
+</body>
+
+</html>
